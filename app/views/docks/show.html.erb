@@ -1,0 +1,51 @@
+<h2><%= @dock.dock_plate %></h2>
+
+<table class='profile-table'>
+	<tr>Harbor: <%= @harbor.name %></tr><br>
+	<tr>Dock plate: <%= @dock.dock_plate %></tr><br>
+	<tr>Size:   <%= @dock.size %></tr><br>
+	<tr>Price:   <%= @dock.price %></tr><br>
+</table>
+
+<h3>Your rentals for this dock:</h3>
+
+<% if @rentals.where('rent_until > ?', Time.now).any? %>
+You have <%= @dock.rentals.count %> rentals for this dock!
+<br><br>
+<ul>
+  <% @rentals.each do |rental| %>
+			<strong><p>Boat: <%= rental.boat.name %></p></strong>
+      <li>From:  <%= rental.rent_from %></li>
+      <li>Until: <%= rental.rent_until %></li>
+			<% if rental.availability == nil %>
+					<%= simple_form_for rental, :url => rental_update_path(rental, @dock) do |f| %>
+					<%= f.input :availability,
+            :as => :select,
+            :collection => [['Deny',false],['Accept',true]],
+            :include_blank => true,
+            :label => "Availability" %>
+					<%= f.submit %>
+					<% end %>
+			<% end %>
+			<%= rental.availability %>
+  <% end %>
+</ul>
+<% else %>
+  No rentals for this dock happening now or in the future.
+	<br><br>
+<% end %>
+
+<% if @rentals.where('rent_until < ?', Time.now).any? %>
+	<strong>Your past rentals:</strong>
+	<br><br>
+	<ul>
+	  <% @rentals.each do |rental| %>
+			<li><strong>Boat: <%= rental.boat.name %></strong><br>
+			  -From:  <%= rental.rent_from %><br>
+			  -Until: <%= rental.rent_until %><br>
+			</li>
+			<br>
+	  <% end %>
+	</ul>
+<% end %>
+<br><br><br>

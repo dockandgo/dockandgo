@@ -1,0 +1,25 @@
+// Place all the styles related to the site controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+html, body {
+  background-image: url("harbor8.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100%;
+  overflow: hidden;
+}
+
+
+#home-image{
+    width: 100%;
+    height: 100vh;
+    background-repeat: no-repeat;
+}
+
+.search-harbor {
+
+  text-align: center;
+  // background-color: #ffffff;
+  // opacity: 0.1;
+}
